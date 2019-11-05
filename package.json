@@ -1,0 +1,42 @@
+{
+  "name": "band-manager-backend",
+  "version": "1.0.0",
+  "description": "Band Manager Backend",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "jest": "jest --runInBand",
+    "test": "npm run jest",
+    "test:coverage": "npm run test -- --coverage",
+    "test:watch": "npm run jest -- --watchAll",
+    "test:verbose": "npm run test -- --verbose",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meganamarshall/band-manager-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meganamarshall/band-manager-backend/issues"
+  },
+  "homepage": "https://github.com/meganamarshall/band-manager-backend#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.8",
+    "morgan": "^1.9.1",
+    "superagent": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.4",
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2"
+  }
+}
