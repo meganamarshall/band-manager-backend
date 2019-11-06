@@ -8,6 +8,12 @@ router
     Tour.create(req.body)
       .then(createdTour => res.json(createdTour))
       .catch(next);
+  })
+  .get('/', (req, res, next) => {
+    Tour.find()
+      .then(tour => res.json(tour))
+      .catch(next);
   });
+ 
 
 module.exports = router;
