@@ -20,6 +20,10 @@ const tour = {
   stops: []
 };
 
+const attendance = {
+  attendance: 55
+};
+
 const anotherTour = {
   title: 'SW Tour 2020',
   bandName: 'Teton',
@@ -119,23 +123,62 @@ describe('tour api routes', () => {
     });
   });
   it('stops can be deleted', () => {
-    return postTour(tour)
-      .then(postedTour => {
-        return request
-          .post(`/api/v1/tours/${postedTour._id}/stops`)
-          .send({ 
-            venueName: 'HighWaterMark',
-            zip: 66207
-          })
-          .expect(200)
-          .then(({ body }) => {
-            return request
-              .delete(`/api/v1/tours/${postedTour._id}/stops/${body.stops[0]._id}`)
-              .expect(200);
-          })
-          .then(({ body }) => {
-            expect(body.length).toBe(0);
-          });
-      });
+    return postTour(tour).then(postedTour => {
+      return request
+        .post(`/api/v1/tours/${postedTour._id}/stops`)
+        .send({
+          venueName: 'HighWaterMark',
+          zip: 66207
+        })
+        .expect(200)
+        .then(({ body }) => {
+          return request
+            .delete(
+              `/api/v1/tours/${postedTour._id}/stops/${body.stops[0]._id}`
+            )
+            .expect(200);
+        })
+        .then(({ body }) => {
+          expect(body.length).toBe(0);
+        });
+    });
+  });
+  it('can update the attendance of a stop', () => {
+    return postTour(anotherTour).then(postedTour => {
+      return request
+        .post(`/api/v1/tours/${postedTour._id}/stops`)
+        .send({
+          venueName: 'OConnors',
+          zip: 97209
+        })
+        .expect(200)
+        .then(({ body }) => {
+          return request
+            .put(
+              `/api/v1/tours/${postedTour._id}/stops/${body.stops[0]._id}/attendance`
+            )
+            .send(attendance)
+            .expect(200);
+        })
+        .then(({ body }) => {
+          expect(body[0]).toMatchInlineSnapshot(
+            {
+              _id: expect.any(String)
+            },
+            `
+            Object {
+              "_id": Any<String>,
+              "address": Object {
+                "city": "Portland",
+                "state": "OR",
+              },
+              "attendance": 55,
+              "venueName": "OConnors",
+              "zip": 97209,
+            }
+          `
+          );
+        });
+    });
   });
 });

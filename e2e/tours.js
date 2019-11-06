@@ -23,6 +23,11 @@ router
     Tour.deleteStop(params.id, params.stopId)
       .then(deletedStop => res.json(deletedStop))
       .catch(next);
+  })
+  .put('/:id/stops/:stopId/attendance', ({ params, body }, res, next) => {
+    Tour.updateAttendance(params.id, params.stopId, body.attendance)
+      .then(updatedStop => res.json(updatedStop))
+      .catch(next);
   });
  
 
