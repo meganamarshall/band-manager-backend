@@ -1,8 +1,17 @@
-jest.mock('../../lib/middleware/zip-code-api.js');
 const request = require('../request');
 const db = require('../db');
 // const { ObjectId } = require('mongoose').Types;
-// const getCity = require('../../lib/middleware/zip-code-api');
+
+// jest.mock('../../lib/middleware/zip-code-api.js', () => ({
+//   getLocation() {
+//     return Promise.resolve([
+//       {
+//         city: 'Portland',
+//         state: 'OR'
+//       }
+//     ]);
+//   }
+// }));
 
 const tour = {
   title: 'Great NE Tour 2019',
@@ -78,6 +87,55 @@ describe('tour api routes', () => {
           }
         `
         );
+      });
+  });
+  it('can add a stop and get city/state info', () => {
+    return postTour(tour).then(tour => {
+      return request
+        .post(`/api/v1/tours/${tour._id}/stops`)
+        .send({
+          venueName: 'BlackWaterBar',
+          zip: 97219
+        })
+        .then(({ body }) => {
+          expect(body.stops[0]).toMatchInlineSnapshot(
+            {
+              _id: expect.any(String)
+            },
+            `
+            Object {
+              "_id": Any<String>,
+              "address": Object {
+                "city": "Portland",
+                "state": "OR",
+              },
+              "attendance": 0,
+              "venueName": "BlackWaterBar",
+              "zip": 97219,
+            }
+          `
+          );
+        });
+    });
+  });
+  it('stops can be deleted', () => {
+    return postTour(tour)
+      .then(postedTour => {
+        return request
+          .post(`/api/v1/tours/${postedTour._id}/stops`)
+          .send({ 
+            venueName: 'HighWaterMark',
+            zip: 66207
+          })
+          .expect(200)
+          .then(({ body }) => {
+            return request
+              .delete(`/api/v1/tours/${postedTour._id}/stops/${body.stops[0]._id}`)
+              .expect(200);
+          })
+          .then(({ body }) => {
+            expect(body.length).toBe(0);
+          });
       });
   });
 });

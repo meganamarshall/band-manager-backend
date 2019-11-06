@@ -18,6 +18,11 @@ router
     Tour.addStop(params.id, body)
       .then(addedStop => res.json(addedStop))
       .catch(next);
+  })
+  .delete('/:id/stops/:stopId', ({ params }, res, next) => {
+    Tour.deleteStop(params.id, params.stopId)
+      .then(deletedStop => res.json(deletedStop))
+      .catch(next);
   });
  
 
