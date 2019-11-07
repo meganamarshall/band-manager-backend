@@ -1,17 +1,5 @@
 const request = require('../request');
 const db = require('../db');
-// const { ObjectId } = require('mongoose').Types;
-
-// jest.mock('../../lib/middleware/zip-code-api.js', () => ({
-//   getLocation() {
-//     return Promise.resolve([
-//       {
-//         city: 'Portland',
-//         state: 'OR'
-//       }
-//     ]);
-//   }
-// }));
 
 const tour = {
   title: 'Great NE Tour 2019',
@@ -99,12 +87,14 @@ describe('tour api routes', () => {
         .post(`/api/v1/tours/${tour._id}/stops`)
         .send({
           venueName: 'BlackWaterBar',
-          zip: 97219
+          zip: 97219,
+          date: new Date()
         })
         .then(({ body }) => {
           expect(body.stops[0]).toMatchInlineSnapshot(
             {
-              _id: expect.any(String)
+              _id: expect.any(String),
+              date: expect.any(String)
             },
             `
             Object {
@@ -114,6 +104,7 @@ describe('tour api routes', () => {
                 "state": "OR",
               },
               "attendance": 0,
+              "date": Any<String>,
               "venueName": "BlackWaterBar",
               "zip": 97219,
             }
@@ -149,7 +140,8 @@ describe('tour api routes', () => {
         .post(`/api/v1/tours/${postedTour._id}/stops`)
         .send({
           venueName: 'OConnors',
-          zip: 97209
+          zip: 97209,
+          date: new Date()
         })
         .expect(200)
         .then(({ body }) => {
@@ -163,7 +155,8 @@ describe('tour api routes', () => {
         .then(({ body }) => {
           expect(body[0]).toMatchInlineSnapshot(
             {
-              _id: expect.any(String)
+              _id: expect.any(String),
+              date: expect.any(String)
             },
             `
             Object {
@@ -173,6 +166,7 @@ describe('tour api routes', () => {
                 "state": "OR",
               },
               "attendance": 55,
+              "date": Any<String>,
               "venueName": "OConnors",
               "zip": 97209,
             }
