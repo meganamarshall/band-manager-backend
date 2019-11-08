@@ -175,4 +175,15 @@ describe('tour api routes', () => {
         });
     });
   });
+  it('can get a tour by id', () => {
+    return postTour(tour)
+      .then(postedTour => {
+        return request  
+          .get(`/api/v1/tours/${postedTour._id}`)
+          .expect(200)
+          .then(res => {
+            expect(res.body.bandName).toEqual('U Sco');
+          });
+      });
+  });
 });
