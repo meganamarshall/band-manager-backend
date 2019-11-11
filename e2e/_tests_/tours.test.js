@@ -186,4 +186,20 @@ describe('tour api routes', () => {
           });
       });
   });
+  it('can delete a tour by id', () => {
+    return postTour(tour)
+      .then(postedTour => {
+        return request
+          .delete(`/api/v1/tours/${postedTour._id}`)
+          .expect(200)
+          .then(() => {
+            return request
+              .get('/api/v1/tours')
+              .expect(200)
+              .then(res => {
+                expect(res.body).toHaveLength(0);
+              });
+          });
+      });
+  });
 });

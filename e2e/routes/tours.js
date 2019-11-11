@@ -33,6 +33,11 @@ router
     Tour.updateAttendance(params.id, params.stopId, body.attendance)
       .then(updatedStop => res.json(updatedStop))
       .catch(next);
+  })
+  .delete('/:id', ({ params }, res, next) => {
+    Tour.findByIdAndDelete(params.id)
+      .then(deletedTour => res.json(deletedTour))
+      .catch(next);
   });
  
 
