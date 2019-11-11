@@ -1,7 +1,7 @@
 /* eslint-disable-next-line*/
 const router = require('express').Router();
-const Tour = require('../lib/models/Tour');
-const getLocation = require('../lib/middleware/zip-code-api');
+const Tour = require('../../lib/models/Tour');
+const getLocation = require('../../lib/middleware/zip-code-api');
 
 router
   .post('/', (req, res, next) => {
