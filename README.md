@@ -10,6 +10,7 @@ POST a tour
 POST a show on a tour  
 PUT update attendance for a show  
 DELETE a show  
+DELETE a tour
 
 
 ## environment variables:  
