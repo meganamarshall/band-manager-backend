@@ -1,6 +1,13 @@
 const request = require('../request');
 const db = require('../db');
 
+jest.mock('../../lib/services/get-city.js');
+const getCity = require('../../lib/services/get-city');
+getCity.mockResolvedValue({
+  city: 'Portland',
+  state: 'OR'
+});
+
 const tour = {
   title: 'Great NE Tour 2019',
   bandName: 'U Sco',
